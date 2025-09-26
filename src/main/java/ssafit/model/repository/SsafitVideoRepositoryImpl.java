@@ -6,15 +6,25 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import ssafit.model.dto.Video;
 
 public class SsafitVideoRepositoryImpl implements SsafitVideoRepository {
-
+	
+	//인스턴스
+	private static SsafitVideoRepository repo = new SsafitVideoRepositoryImpl();
+	
+	//REPO 클래스 생성자
+	private SsafitVideoRepositoryImpl() {} //기본 생성자
+	
+	public static SsafitVideoRepository getInstance() {
+		return repo;
+	}
+	
 	// JSON 데이터를 담을 리스트
 	private List<Video> list;
-	private Map<String, Video> map = new HashMap<>();
+	
 
 	// JSON 파일 경로
 	private static final String json_file_path = "video.json";
@@ -96,28 +106,42 @@ public class SsafitVideoRepositoryImpl implements SsafitVideoRepository {
 	@Override
 	public Video selectOne(String id) {
 		// TODO Auto-generated method stub
-		return map.get(id);
+		
+		for(Video video : list) {
+			if(video.getId() == id)
+				return video;
+		}
+		return null;
 	}
 
 	@Override
 	public void insertVideo(Video video) {
 		// TODO Auto-generated method stub
 		list.add(video);
-		map.put(video.getId(), video);
 		
-
 	}
 
 	@Override
 	public void updateVideo(Video video) {
 		// TODO Auto-generated method stub
-
+		for(Video origin : list) {
+			if(origin.getId().equals(video.getId())) {
+				list.remove(origin);
+				list.add(video);
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void deleteVideo(String id) {
 		// TODO Auto-generated method stub
-
+		for(Video origin : list) {
+			if(origin.getId().equals(id)) {
+			list.remove(origin);
+			break;
+			}
+		}
 	}
 
 
