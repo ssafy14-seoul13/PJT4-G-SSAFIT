@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, com.ssafy.dto.VideoDTO" %>
+<%@ page import="java.util.List, ssafit.model.dto.Video" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,7 @@
     <p><a href="video_register.jsp">새로운 영상 등록</a></p>
     
     <% 
-        List<VideoDTO> videoList = (List<VideoDTO>) request.getAttribute("videoList");
+        List<Video> videoList = (List<Video>) request.getAttribute("videoList");
         if (videoList != null && !videoList.isEmpty()) {
     %>
     <table border="1">
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            <% for (VideoDTO video : videoList) { %>
+            <% for (Video video : videoList) { %>
             <tr>
                 <td><%= video.getTitle() %></td>
                 <td><%= video.getPart() %></td>
