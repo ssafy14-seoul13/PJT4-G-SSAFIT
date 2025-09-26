@@ -25,7 +25,7 @@ public class SsafitUserRepositoryImpl implements SsafitUserRepository {
 	}
 
 	@Override
-	public User selectOne(int userId) {
+	public User selectOne(String userId) {
 		for (User user : list) {
 			if (user.getUserId().equals(userId))
 				return user;
@@ -51,7 +51,7 @@ public class SsafitUserRepositoryImpl implements SsafitUserRepository {
 	}
 
 	@Override
-	public void deleteUser(int userId) {
+	public void deleteUser(String userId) {
 		for (User user : list) {
 			if (user.getUserId().equals(userId)) {
 				list.remove(user);
