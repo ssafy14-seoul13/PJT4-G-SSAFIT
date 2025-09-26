@@ -12,7 +12,7 @@ public class SsafitUserServiceImpl implements SsafitUserService{
 	
 	private SsafitUserRepository repo = SsafitUserRepositoryImpl.getInstance();
 	
-	private static SsafitUserService getInstance() {
+	public static SsafitUserService getInstance() {
 		return service;
 	}
 

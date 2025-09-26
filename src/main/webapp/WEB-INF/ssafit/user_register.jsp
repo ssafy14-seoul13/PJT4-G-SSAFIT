@@ -7,7 +7,8 @@
 </head>
 <body>
     <h1>회원 가입</h1>
-    <form action="/user" method="post">
+    <form action="user" method="POST">
+    	<input type="hidden" name="act" value="write">
         <label for="userId">아이디:</label><br>
         <input type="text" id="userId" name="userId" required><br><br>
         

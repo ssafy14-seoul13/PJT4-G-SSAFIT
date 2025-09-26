@@ -1,12 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>SSAFIT</title>
 </head>
 <body>
-
+	<h2>PJT4-G-SSAFIT</h2>
+	
+	<!-- 회원가입 -->
+	<a href=user?act=writeform>회원가입</a>
+	<!-- 영상전체조회 -->
+	<a href=video?act=list>운동 영상 전체 조회</a>
 </body>
 </html>
