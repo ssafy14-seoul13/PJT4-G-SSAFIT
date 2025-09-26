@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.ssafy.dto.VideoDTO" %>
+<%@ page import="ssafit.model.dto.Video" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
 <body>
     <h1>영상 상세 정보</h1>
     <%
-        VideoDTO video = (VideoDTO) request.getAttribute("video");
+        Video video = (Video) request.getAttribute("video");
         if (video != null) {
     %>
     <form action="/video" method="post">
