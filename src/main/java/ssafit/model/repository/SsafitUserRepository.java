@@ -9,7 +9,7 @@ public interface SsafitUserRepository {
 	public abstract List<User> selectAll();
 
 	//회원 정보 조회
-	public abstract User selectOne(int userId);
+	public abstract User selectOne(String userId);
 
 	//회원 가입
 	public abstract void insertUser(User user);
@@ -18,5 +18,5 @@ public interface SsafitUserRepository {
 	public abstract void updateUser(User user);
 
 	//회원 탈퇴 
-	public abstract void deleteUser(int userId);
+	public abstract void deleteUser(String userId);
 }
