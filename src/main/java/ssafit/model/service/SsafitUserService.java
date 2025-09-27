@@ -5,6 +5,9 @@ import java.util.List;
 import ssafit.model.dto.User;
 
 public interface SsafitUserService {
+	//로그인
+	public abstract boolean login(String userId, String password);
+	
 	//전체 회원 조회
 	public abstract List<User> selectAll();
 

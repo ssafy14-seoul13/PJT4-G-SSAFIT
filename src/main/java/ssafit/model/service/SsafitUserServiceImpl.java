@@ -17,6 +17,18 @@ public class SsafitUserServiceImpl implements SsafitUserService{
 	}
 
 	@Override
+	public boolean login(String userId, String password) {
+		if (repo.selectOne(userId) != null) {
+			if (repo.login(userId, password)) {
+				return true;
+				
+			}
+		}
+		return false;
+		
+	}
+	
+	@Override
 	public List<User> selectAll() {
 		return repo.selectAll();
 	}
@@ -46,6 +58,7 @@ public class SsafitUserServiceImpl implements SsafitUserService{
 			repo.deleteUser(userId);
 		
 	}
+
 	
 
 }

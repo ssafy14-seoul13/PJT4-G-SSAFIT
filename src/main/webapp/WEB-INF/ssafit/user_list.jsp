@@ -7,6 +7,8 @@
     <title>회원 목록</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
+	
     <h1>회원 목록</h1>
     <p><a href="user?act=writeform">새로운 회원 가입</a></p>
     

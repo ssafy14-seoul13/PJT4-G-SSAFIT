@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ssafit.model.dto.User;
 import ssafit.model.service.SsafitUserService;
 import ssafit.model.service.SsafitUserServiceImpl;
@@ -22,6 +23,15 @@ public class SsafitUserController extends HttpServlet {
 		String act = request.getParameter("act");
 		
 		switch(act) {
+		case "loginform":
+			doLoginForm(request, response);
+			break;
+		case "login":
+			doLogin(request, response);
+			break;
+		case "logout":
+			doLogout(request, response);
+			break;
 		case "writeform":
 			doWriteForm(request, response);
 			break;
@@ -41,6 +51,35 @@ public class SsafitUserController extends HttpServlet {
 			doDelete(request, response);
 			break;
 		}
+	}
+	
+	private void doLoginForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/ssafit/user_login.jsp").forward(request, response);
+		
+	}
+	
+	private void doLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String userId = request.getParameter("userId");
+		String password = request.getParameter("password");
+		
+		if (service.login(userId, password)) {
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", userId);
+			response.sendRedirect("index.jsp");
+		}
+		else {
+			request.setAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다!");
+			request.getRequestDispatcher("/WEB-INF/ssafit/user_login.jsp").forward(request, response);
+		}
+	}
+	
+	private void doLogout(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		response.sendRedirect("index.jsp");
 	}
 
 	private void doDetail(HttpServletRequest request, HttpServletResponse response)
@@ -73,7 +112,7 @@ public class SsafitUserController extends HttpServlet {
 		response.sendRedirect("user?act=list");
 
 	}
-
+	
 	private void doWriteForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/ssafit/user_register.jsp").forward(request, response);
