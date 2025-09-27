@@ -4,148 +4,132 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 
 import ssafit.model.dto.Video;
 
 public class SsafitVideoRepositoryImpl implements SsafitVideoRepository {
-	
-	//인스턴스
-	private static SsafitVideoRepository repo = new SsafitVideoRepositoryImpl();
-	
-	//REPO 클래스 생성자
-	private SsafitVideoRepositoryImpl() {} //기본 생성자
-	
-	public static SsafitVideoRepository getInstance() {
-		return repo;
-	}
-	
-	// JSON 데이터를 담을 리스트
-	private List<Video> list;
-	
 
-	// JSON 파일 경로
-	private static final String json_file_path = "video.json";
+    private static SsafitVideoRepository repo = new SsafitVideoRepositoryImpl();
+    private List<Video> list; // 영상 데이터를 담을 리스트
 
+    // private 생성자에서 데이터 로딩
+    private SsafitVideoRepositoryImpl() {
+        jsonReader(); // 프로그램 시작 시 JSON 데이터 로드
+    }
 
-	// json 파일을 읽어 videoList를 초기화
-	private void JsonRedear() {
-		list = new ArrayList<>();
-		StringBuilder jsonContent = new StringBuilder();
+    public static SsafitVideoRepository getInstance() {
+        return repo;
+    }
 
-		// 1. JSON 파일을 읽어서 문자열로 만들기
-		try (InputStream is = getClass().getClassLoader().getResourceAsStream(json_file_path);
-				BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+    // JSON 파일 경로 (클래스패스 기준)
+    private static final String JSON_FILE_PATH = "video.json";
 
-			String line;
-			while ((line = br.readLine()) != null) {
-				jsonContent.append(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
+    // JSON 파일을 읽어 list를 초기화
+    private void jsonReader() {
+        list = new ArrayList<>();
+        StringBuilder jsonContent = new StringBuilder();
 
-		String jsonString = jsonContent.toString();
-		// 배열 시작과 끝 '[', ']' 제거
-		jsonString = jsonString.substring(jsonString.indexOf('[') + 1, jsonString.lastIndexOf(']'));
-		// 각 객체를 ',' 기준으로 분리
-		String[] videoObjects = jsonString.split("},\\{");
+        // 1. JSON 파일을 읽어서 문자열로 만들기 (InputStream null 체크 및 UTF-8 인코딩 명시)
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(JSON_FILE_PATH)) {
+            if (is == null) {
+                System.out.println("[ERROR] JSON file not found: " + JSON_FILE_PATH);
+                return;
+            }
+            // UTF-8 인코딩을 명시하여 한글 깨짐 방지
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    jsonContent.append(line);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] JSON file loading failed.");
+            e.printStackTrace();
+            return;
+        }
 
-		for (String objStr : videoObjects) {
-			// 각 객체 문자열을 정리
-			objStr = objStr.replace("{", "").replace("}", "").replace("\"", "");
+        // 2. 수동 파싱 개선 (정규 표현식 사용)
+        // 정규 표현식으로 키-값 쌍을 추출하기 위한 패턴: \"key\":\"value\"
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\"(.*?)\"\s*:\s*\"(.*?)\"");
+        
+        // JSON 문자열에서 객체 부분만 추출 (대괄호 안의 내용)
+        String jsonString = jsonContent.toString();
+        int startIndex = jsonString.indexOf('[');
+        int endIndex = jsonString.lastIndexOf(']');
 
-			String[] properties = objStr.split(",");
-			String id = null;
-			String title = null;
-			String part = null;
-			String channelName = null;
-			String url = null;
+        if (startIndex == -1 || endIndex == -1) {
+            System.out.println("[ERROR] Invalid JSON array format.");
+            return;
+        }
+        
+        // 객체들이 모여있는 문자열
+        String objectsString = jsonString.substring(startIndex + 1, endIndex);
 
-			// 2. 키-값 쌍을 수동으로 파싱하여 VideoDTO 객체 생성
-			for (String prop : properties) {
-				String[] keyValue = prop.split(":");
-				String key = keyValue[0].trim();
-				String value = keyValue[1].trim();
+        // ','와 다음 '{' 사이를 기준으로 각 JSON 객체 문자열을 분리 (더 안정적인 방법)
+        String[] videoObjects = objectsString.split(",(?=\s*\\{)");
 
-				switch (key) {
-				case "id":
-					id = value;
-					break;
-				case "title":
-					title = value;
-					break;
-				case "part":
-					part = value;
-					break;
-				case "channelName":
-					channelName = value;
-					break;
-				case "url":
-					url = value;
-					break;
-				}
-			}
+        for (String objStr : videoObjects) {
+            if (objStr.trim().isEmpty()) continue;
 
-			list.add(new Video(id, title, part, channelName, url));
-		}
-		System.out.println("수동 파싱 완료. 총 " + list.size() + "개의 영상이 로드되었습니다.");
-	}
+            java.util.regex.Matcher matcher = pattern.matcher(objStr);
+            
+            String id = null, title = null, part = null, channelName = null, url = null;
 
-	// 이 아래에 VideoRepository 인터페이스의 메서드들을 구현
-	@Override
-	public List<Video> selectAll() {
-		return list;
-	}
+            while (matcher.find()) {
+                String key = matcher.group(1);
+                String value = matcher.group(2);
 
+                switch (key) {
+                    case "id": id = value; break;
+                    case "title": title = value; break;
+                    case "part": part = value; break;
+                    case "channelName": channelName = value; break;
+                    case "url": url = value; break;
+                }
+            }
+            
+            if (id != null) { // 유효한 객체 데이터가 파싱되었는지 확인
+                list.add(new Video(id, title, part, channelName, url));
+            }
+        }
+        System.out.println("JSON parsing complete. " + list.size() + " videos loaded.");
+    }
 
+    @Override
+    public List<Video> selectAll() {
+        return list;
+    }
 
-	@Override
-	public Video selectOne(String id) {
-		// TODO Auto-generated method stub
-		
-		for(Video video : list) {
-			if(video.getId() == id)
-				return video;
-		}
-		return null;
-	}
+    @Override
+    public Video selectOne(String id) {
+        for (Video video : list) {
+            // 문자열 비교는 .equals() 사용
+            if (video.getId().equals(id)) {
+                return video;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public void insertVideo(Video video) {
-		// TODO Auto-generated method stub
-		list.add(video);
-		
-	}
+    @Override
+    public void insertVideo(Video video) {
+        list.add(video);
+    }
 
-	@Override
-	public void updateVideo(Video video) {
-		// TODO Auto-generated method stub
-		for(Video origin : list) {
-			if(origin.getId().equals(video.getId())) {
-				list.remove(origin);
-				list.add(video);
-				break;
-			}
-		}
-	}
+    @Override
+    public void updateVideo(Video video) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().equals(video.getId())) {
+                list.set(i, video); // 찾은 인덱스의 요소를 교체
+                return;
+            }
+        }
+    }
 
-	@Override
-	public void deleteVideo(String id) {
-		// TODO Auto-generated method stub
-		for(Video origin : list) {
-			if(origin.getId().equals(id)) {
-			list.remove(origin);
-			break;
-			}
-		}
-	}
-
-
-
-
-
+    @Override
+    public void deleteVideo(String id) {
+        // removeIf를 사용하여 안전하게 요소 제거
+        list.removeIf(v -> v.getId().equals(id));
+    }
 }
