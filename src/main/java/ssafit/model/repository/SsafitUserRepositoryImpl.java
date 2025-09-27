@@ -18,6 +18,14 @@ public class SsafitUserRepositoryImpl implements SsafitUserRepository {
 	public static SsafitUserRepository getInstance() {
 		return repo;
 	}
+	
+	@Override
+	public boolean login(String userId, String password) {
+		if (repo.selectOne(userId).getPassword().equals(password))
+			return true;
+		
+		return false;
+	}
 
 	@Override
 	public List<User> selectAll() {
@@ -59,5 +67,6 @@ public class SsafitUserRepositoryImpl implements SsafitUserRepository {
 			}
 		}
 	}
+
 
 }
