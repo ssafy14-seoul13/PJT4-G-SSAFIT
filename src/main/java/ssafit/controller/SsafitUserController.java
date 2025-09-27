@@ -95,13 +95,13 @@ public class SsafitUserController extends HttpServlet {
 		response.sendRedirect("user?act=list");
 	}
 	
-//	private void doDelete(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		
-//		String userId = request.getParameter("userId");
-//		
-//		service.deleteUser(userId);
-//		
-//		response.sendRedirect("user?act=list");
-//	}
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		String userId = request.getParameter("userId");
+		
+		service.deleteUser(userId);
+		
+		response.sendRedirect("user?act=list");
+	}
 }

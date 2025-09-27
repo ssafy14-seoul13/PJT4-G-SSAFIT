@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>회원 목록</h1>
-    <p><a href="user_register.jsp">새로운 회원 가입</a></p>
+    <p><a href="user?act=writeform">새로운 회원 가입</a></p>
     
     <% 
         List<User> userList = (List<User>) request.getAttribute("list");
@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th>아이디</th>
+                <th>비밀번호</th>
                 <th>이름</th>
                 <th>이메일</th>
                 <th>상세 보기</th>
@@ -27,6 +28,7 @@
             <% for (User user : userList) { %>
             <tr>
                 <td><%= user.getUserId() %></td>
+                <td><%= user.getPassword() %></td>
                 <td><%= user.getName() %></td>
                 <td><%= user.getEmail() %></td>
                 <td><a href="user?act=detail&userId=<%= user.getUserId() %>">상세</a></td>
@@ -37,6 +39,6 @@
     <% } else { %>
     <p>등록된 회원이 없습니다.</p>
     <% } %>
-    <p><a href="/">메인으로</a></p>
+    <p><a href="index.jsp">메인으로</a></p>
 </body>
 </html>
