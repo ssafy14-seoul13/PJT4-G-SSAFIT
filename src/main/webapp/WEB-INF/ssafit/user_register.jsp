@@ -23,6 +23,6 @@
         
         <button type="submit">회원 가입</button>
     </form>
-    <p><a href="/">메인으로</a></p>
+    <p><a href="index.jsp">메인으로</a></p>
 </body>
 </html>

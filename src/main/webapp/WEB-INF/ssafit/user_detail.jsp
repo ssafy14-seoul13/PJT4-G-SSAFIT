@@ -16,7 +16,7 @@
         <input type="hidden" name="act" value="update">
         
         <label>아이디:</label>
-        <%= user.getUserId() %><br><br>
+        <input type="text" id="userId" name="userId" value="<%= user.getUserId() %>" required><br><br>
         
         <label for="name">이름:</label><br>
         <input type="text" id="name" name="name" value="<%= user.getName() %>" required><br><br>
@@ -27,10 +27,10 @@
         <label for="password">비밀번호:</label><br>
         <input type="password" id="password" name="password" placeholder="비밀번호를 변경하려면 입력하세요"><br><br>
         
-        <button type="submit" name="_method" value="put">수정하기</button>
+        <button type="submit">수정하기</button>
     </form>
     
-    <form action="/user" method="post">
+    <form action="user" method="POST">
         <input type="hidden" name="act" value="delete">
         <input type="hidden" name="userId" value="<%= user.getUserId() %>">
         <button type="submit">삭제하기</button>
