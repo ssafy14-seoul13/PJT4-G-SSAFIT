@@ -12,10 +12,15 @@ import ssafit.model.dto.Video;
 import ssafit.model.service.SsafitVideoService;
 import ssafit.model.service.SsafitVideoServiceImpl;
 
+import ssafit.model.dto.Review;
+import ssafit.model.service.SsafitReviewService;
+import ssafit.model.service.SsafitReviewServiceImpl;
+
 @WebServlet("/video") // "/ssafit"에서 "/video"로 변경
 public class SsafitVideoController extends HttpServlet {
 
 	private SsafitVideoService service = SsafitVideoServiceImpl.getInstance();
+	private SsafitReviewService reviewService = SsafitReviewServiceImpl.getInstance();
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +55,12 @@ public class SsafitVideoController extends HttpServlet {
 		String id = request.getParameter("id"); 
 		
 		// setAttribute의 key값을 "title" -> "video"로 수정
-		request.setAttribute("video", service.selectOne(id)); 
+		Video video = service.selectOne(id);
+		request.setAttribute("video", video); 
+
+		List<Review> reviewList = reviewService.getReviewList(id);
+		request.setAttribute("reviewList", reviewList);
+
 		request.getRequestDispatcher("/WEB-INF/ssafit/video_detail.jsp").forward(request, response);
 	}
 

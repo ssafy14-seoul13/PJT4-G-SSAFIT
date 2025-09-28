@@ -41,6 +41,53 @@
 				type="hidden" name="id" value="${video.id}">
 			<button type="submit">삭제하기</button>
 		</form>
+
+		<hr>
+
+		<!-- Review Section -->
+		<h2>리뷰</h2>
+
+		<!-- Review Write Form -->
+		<c:if test="${not empty sessionScope.userId}">
+			<form action="${pageContext.request.contextPath}/review" method="post">
+				<input type="hidden" name="act" value="write">
+				<input type="hidden" name="videoId" value="${video.id}">
+				<label for="reviewContent">리뷰 작성:</label><br>
+				<textarea id="reviewContent" name="content" rows="3" cols="50" required></textarea><br>
+				<button type="submit">리뷰 등록</button>
+			</form>
+		</c:if>
+		<c:if test="${empty sessionScope.userId}">
+			<p>리뷰를 작성하려면 <a href="${pageContext.request.contextPath}/user?act=loginform">로그인</a>하세요.</p>
+		</c:if>
+
+		<br>
+
+		<!-- Review List -->
+		<c:choose>
+			<c:when test="${not empty reviewList}">
+				<c:forEach var="review" items="${reviewList}">
+					<div>
+						<strong>${review.userId}</strong> (${review.regDate})<br>
+						<p>${review.content}</p>
+						<c:if test="${sessionScope.userId eq review.userId}">
+							<form action="${pageContext.request.contextPath}/review" method="post" style="display: inline;">
+								<input type="hidden" name="act" value="delete">
+								<input type="hidden" name="reviewId" value="${review.reviewId}">
+								<input type="hidden" name="videoId" value="${video.id}">
+								<button type="submit">삭제</button>
+							</form>
+							<!-- Note: A proper edit implementation would typically involve JavaScript or a separate page -->
+						</c:if>
+					</div>
+					<hr>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<p>작성된 리뷰가 없습니다.</p>
+			</c:otherwise>
+		</c:choose>
+
 	</c:if>
 
 	<p>
