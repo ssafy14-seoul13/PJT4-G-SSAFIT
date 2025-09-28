@@ -109,7 +109,7 @@ D:\SSAFY\PJT4-G-SSAFIT
 <img width="502" height="997" alt="image" src="https://github.com/user-attachments/assets/b642cf55-f219-43f7-8dac-1a7a813b0562" />
 <img width="826" height="828" alt="image" src="https://github.com/user-attachments/assets/9d02f232-781f-4e0a-a2e6-e8313ac01607" />
 
----
+
 ## 6. 소감
 
 1. Servlet, MVC 패턴, JSP, tomcat 등 웹 애플리케이션 개발에 필요한 기술과 tool을 활용하며 학습할 수 있었습니다. 이론으로 배웠던 내용을 직접 개발하며 체화할 수 있었습니다.
