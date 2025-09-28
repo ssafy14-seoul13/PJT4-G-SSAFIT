@@ -110,7 +110,8 @@ D:\SSAFY\PJT4-G-SSAFIT
 <img width="826" height="828" alt="image" src="https://github.com/user-attachments/assets/9d02f232-781f-4e0a-a2e6-e8313ac01607" />
 
 ---
-소감
+## 6. 소감
+
 1. Servlet, MVC 패턴, JSP, tomcat 등 웹 애플리케이션 개발에 필요한 기술과 tool을 활용하며 학습할 수 있었습니다. 이론으로 배웠던 내용을 직접 개발하며 체화할 수 있었습니다.
 2. 스크립틀릿을 사용할 때 jar 파일 버전 등과 같은 개발 환경의 중요성을 체감했습니다. 낮은 버전을 사용했을 때 스크립틀릿이 작동하지 않았는데 3.0.1 버전의 파일을 적용했을 때 적동하는 것을 확인했습니다.
 3. controller는 사용자 요청을 가장 먼저 받는 진입점, service는 실제 데이터 처리, 계산, 트랜잭션 관리 등 핵심적인 작업 수행, repository는 데이터베이스와 직접 상호작용하며 CRUD 기능 수행 등 Controller, Service, Repository의 역할에 대하여 명확히 알게 되었습니다.
