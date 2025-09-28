@@ -28,6 +28,7 @@ SSAFIT은 사용자가 다양한 피트니스 영상을 시청하고 관리할 �
 -   **리뷰 목록 조회**: 영상 상세 페이지에서 해당 영상에 달린 모든 리뷰를 확인할 수 있습니다.
 -   **리뷰 삭제**: 자신이 작성한 리뷰를 삭제할 수 있습니다.
 
+
 ## 3. 프로젝트 구조
 
 이 프로젝트는 기본적인 MVC(Model-View-Controller) 디자인 패턴을 따릅니다.
@@ -89,6 +90,7 @@ D:\SSAFY\PJT4-G-SSAFIT
 -   **View**: `*.jsp`
     -   Controller로부터 전달받은 모델 데이터를 사용하여 사용자에게 보여줄 UI를 렌더링합니다.
 
+
 ## 4. 개발 언어 및 사용 기술
 
 -   **Backend**:
@@ -101,6 +103,7 @@ D:\SSAFY\PJT4-G-SSAFIT
     -   JSON 파일을 데이터 저장소로 활용 (`video.json`, `review.json`)
 -   **IDE**:
     -   Eclipse
+
 
 ## 5. 웹 애플리케이션 화면
 <img width="2869" height="1415" alt="image" src="https://github.com/user-attachments/assets/86ed332a-6dcf-4e5a-aaaf-d6c2ea608028" />
