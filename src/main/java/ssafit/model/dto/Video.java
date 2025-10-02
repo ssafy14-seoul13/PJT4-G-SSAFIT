@@ -9,7 +9,7 @@ public class Video {
 	
 	
 	
-	private Video() {}
+	public Video() {}
 	
 	//필드 초기화
 	public Video(String id, String title, String part, String channelName, String url) {
